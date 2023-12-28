@@ -1,7 +1,20 @@
-function App() {
+import { useState } from 'react'
 
+function App() {
+  const [list, setList] = useState<string[]>(['typescript', 'java', 'python'])
+
+  function add() { 
+    setList([...list, 'javascript'])
+  }   
   return (
-    <h1>hello world</h1>
+    <>
+      <button onClick={add}>Adicionar</button>
+      <ul>
+        {list.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </>
   )
 }
 
