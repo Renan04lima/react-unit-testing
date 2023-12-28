@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from './App';
 
 describe('App', () => {
@@ -7,5 +8,19 @@ describe('App', () => {
         expect(getByText('typescript')).toBeInTheDocument();
         expect(getByText('java')).toBeInTheDocument();
         expect(getByText('python')).toBeInTheDocument();
+    })
+
+    it('should be able to add new item to the list', async () => {
+        const user = userEvent.setup();
+        const { getByText, getByPlaceholderText } = render(<App />);
+
+        const addButton = getByText('Adicionar');
+        const inputElement = getByPlaceholderText('Novo item');
+        const newItem = 'javascript';
+
+        await userEvent.type(inputElement, newItem);
+        await user.click(addButton);
+
+        expect(getByText(newItem)).toBeInTheDocument();
     })
 })
