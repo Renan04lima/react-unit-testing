@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
@@ -12,7 +12,7 @@ describe('App', () => {
 
     it('should be able to add new item to the list', async () => {
         const user = userEvent.setup();
-        const { getByText, getByPlaceholderText } = render(<App />);
+        const { getByText, getByPlaceholderText, findByText } = render(<App />);
 
         const addButton = getByText('Adicionar');
         const inputElement = getByPlaceholderText('Novo item');
@@ -21,6 +21,19 @@ describe('App', () => {
         await userEvent.type(inputElement, newItem);
         await user.click(addButton);
 
-        expect(getByText(newItem)).toBeInTheDocument();
+        expect(await findByText(newItem)).toBeInTheDocument();
+    })
+
+    it('should be able to remove item from the list', async () => {
+        const user = userEvent.setup();
+        const { queryByText, getAllByText } = render(<App />);
+
+        const removerButtons = getAllByText('Remover');
+
+        await user.click(removerButtons[0]);
+
+        await waitForElementToBeRemoved(() => {
+            return queryByText('typescript')
+        });
     })
 })

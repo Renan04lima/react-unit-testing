@@ -6,8 +6,19 @@ function App() {
   const [newItem, setNewItem] = useState<string>('')
 
   function add() {
-    setList([...list, newItem])
-    setNewItem('')
+    setTimeout(() => {
+      // simulate api call
+      setList([...list, newItem])
+      setNewItem('')
+    }, 500);
+  }
+
+  function remove(item: string) {
+    setTimeout(() => {
+      // simulate api call
+      setList(list.filter((i) => i !== item))
+
+    }, 500);
   }
 
   return (
@@ -21,7 +32,10 @@ function App() {
       <button onClick={add}>Adicionar</button>
       <ul>
         {list.map((item, index) => (
-          <li key={index}>{item}</li>
+          <li key={index}>
+            {item} 
+            <button onClick={() => remove(item)}>Remover</button>
+            </li>
         ))}
       </ul>
     </>
