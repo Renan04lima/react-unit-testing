@@ -1,10 +1,10 @@
 import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from './App';
+import List from './List';
 
-describe('App', () => {
+describe('List', () => {
     it('should render  list items', () => {
-        const { getByText } = render(<App />);
+        const { getByText } = render(<List initialItems={['typescript', 'java', 'python']} />);
         expect(getByText('typescript')).toBeInTheDocument();
         expect(getByText('java')).toBeInTheDocument();
         expect(getByText('python')).toBeInTheDocument();
@@ -12,7 +12,7 @@ describe('App', () => {
 
     it('should be able to add new item to the list', async () => {
         const user = userEvent.setup();
-        const { getByText, getByPlaceholderText, findByText } = render(<App />);
+        const { getByText, getByPlaceholderText, findByText } = render(<List initialItems={[]} />);
 
         const addButton = getByText('Adicionar');
         const inputElement = getByPlaceholderText('Novo item');
@@ -26,7 +26,7 @@ describe('App', () => {
 
     it('should be able to remove item from the list', async () => {
         const user = userEvent.setup();
-        const { queryByText, getAllByText } = render(<App />);
+        const { queryByText, getAllByText } = render(<List initialItems={['typescript']} />);
 
         const removerButtons = getAllByText('Remover');
 
